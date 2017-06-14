@@ -1,6 +1,7 @@
-package com.moex;
+package com.moex.models;
 
-import java.math.BigDecimal;
+import com.moex.enums.Instrument;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class Client {
     /**
      * Мапа с активами. Ключ - актив, значение - количество актива
      */
-    private Map<Actives, BigDecimal> actives = new HashMap<>();
+    private Map<Instrument, Long> instruments = new HashMap<>();
 
     public Client(String name) {
         this.name = name;
@@ -23,22 +24,22 @@ public class Client {
 
     /**
      * Метод добавляет клиенту базовый актив. Если у клиента не было указанного актива - значит у него 0.
-     * @param active - добавляемый актив
+     * @param instrument - добавляемый актив
      * @param amount - количество актива
      */
-    public void addActive(Actives active, BigDecimal amount) {
+    public void addInstrument(Instrument instrument, Long amount) {
         if (amount == null) {
             return;
         }
-        BigDecimal initional = actives.computeIfAbsent(active, actives -> BigDecimal.ZERO);
-        initional.add(amount);
+        Long initional = instruments.computeIfAbsent(instrument, instrument1 -> 0L);
+        instruments.put(instrument, initional + amount);
     }
 
     public String getName() {
         return name;
     }
 
-    public Map<Actives, BigDecimal> getActives() {
-        return actives;
+    public Map<Instrument, Long> getInstruments() {
+        return instruments;
     }
 }
